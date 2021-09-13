@@ -131,7 +131,7 @@ $ git branch
   fooBranch
 * main
 ```
-Para enviar la nueva rama al repositorio remoto, hará falta un **push**, pero antes usamos branch sin argumentos (listar ramas) y **status**
+Para enviar la nueva rama al repo remoto, hará falta un **push**, pero antes usamos branch sin argumentos (listar ramas) y **status**
 
 ```bash
 $ git status
@@ -193,13 +193,12 @@ git push <nombre-remoto> <nombre-rama>
         39342cd..3392dcd  main -> main
 ```
 
-****Vi**sualización de ramas:**
+**Visualización de ramas**:
 
     git branch
-    
     git branch --list
 
-**Borrar una rama**:****
+**Borrar una rama**:
 
     git branch -d <nombre-de-la-rama>
 
@@ -418,104 +417,69 @@ Traducido del artículo de [**Cem
 Eygi**](https://www.freecodecamp.org/news/author/cemeygi/) **- [10 Git
 Commands Every Developer Should
 Know](https://www.freecodecamp.org/news/10-important-git-commands-that-every-developer-should-know/)**
-:::
 
-------------------------------------------------------------------------
 
-::: post-full-author-header
-::: {.section .author-card}
-![Nora Gonzalo
-Ciordia](/espanol/news/content/images/size/w100/2020/12/NGC.jpg){.author-profile-image}
+## repo brand new from scratch
 
-::: {.section .author-card-content}
-[[Nora Gonzalo Ciordia](/espanol/news/author/nora/)]{.author-card-name}
+```bash
+$ cd /git.n.github.101
+$ git init # produce este warning:
+ayuda: Using 'master' as the name for the initial branch. This default branch name
+ayuda: is subject to change. To configure the initial branch name to use in all
+ayuda: of your new repositories, which will suppress this warning, call:
+ayuda: 
+ayuda:  git config --global init.defaultBranch <name>
+ayuda: 
+ayuda: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+ayuda: 'development'. The just-created branch can be renamed via this command:
+ayuda: 
+ayuda:  git branch -m <name>
+Inicializado repositorio Git vacío en /home/ray/git.n.github.101/.git/
 
-FullStack Dev Jr living in Madrid LinkedIn:
-https://www.linkedin.com/in/noragonzalo/
-:::
-:::
-:::
+$ rm -Rf .git # empezamos de nuevo
+$ git config --global init.defaultBranch main
+$ git init
+Inicializado repositorio Git vacío en /home/ray/git.n.github.101/.git/
+```
+[nota](https://stackoverflow.com/questions/7152607/git-force-push-current-working-directory)
 
-------------------------------------------------------------------------
+Creamos el repo vacio en github (rsancho64/git.n.github.101 public)
 
-Si este artículo te fue útil, [tweet it.]{#tweet-btn .cta-button}
-
-::: learn-cta-row
-Aprende a codificar de forma gratuita. El plan de estudios de código
-abierto de freeCodeCamp ha ayudado a más de 40,000 personas a obtener
-trabajos como desarrolladores. [Empieza]{#learn-to-code-cta .cta-button}
-:::
-:::
-:::
-:::
-
-::: footer-container
-::: footer-top
-::: footer-desc-col
-freeCodeCamp es una organización sin fines de lucro 501(c)(3) exenta de
-impuestos apoyada por donantes (Número de identificación fiscal federal
-de los Estados Unidos: 82-0779546)
-
-Nuestra misión: ayudar a las personas a aprender a programar de forma
-gratuita. Logramos esto creando miles de videos, artículos y lecciones
-de programación interactivas, todas disponibles gratuitamente para el
-público. También tenemos miles de grupos de estudio freeCodeCamp en todo
-el mundo.
-
-Las donaciones a freeCodeCamp van hacia nuestras iniciativas educativas
-y ayudan a pagar servidores, servicios y personal.
-
-Puedes hacer [una donación deducible de impuestos aquí]{#footer-donation
-.inline}.
-:::
-
-::: trending-guides
-::: col-header
-Guías de Tendencias
-:::
-
-::: trending-guides-row
-::: {.footer-col .footer-col-1}
-[]{#article0} []{#article1} []{#article2} []{#article3} []{#article4}
-[]{#article5} []{#article6} []{#article7} []{#article8} []{#article9}
-:::
-
-::: {.footer-col .footer-col-2}
-[]{#article10} []{#article11} []{#article12} []{#article13}
-[]{#article14} []{#article15} []{#article16} []{#article17}
-[]{#article18} []{#article19}
-:::
-
-::: {.footer-col .footer-col-3}
-::: footer-left
-[]{#article20} []{#article21} []{#article22} []{#article23}
-[]{#article24}
-:::
-
-::: footer-right
-[]{#article25} []{#article26} []{#article27} []{#article28}
-[]{#article29}
-:::
-:::
-:::
-:::
-:::
-
-::: footer-bottom
-::: col-header
-Nuestra Organización No Lucatriva
-:::
-
-::: footer-divider
-:::
-
-::: our-nonprofit
-[Acerca]{#about} [Red de Ex-Alumnos]{#alumni} [Código
-Abierto]{#open-source} [Tienda]{#shop} [Apoyo]{#support}
-[Patrocinadores]{#sponsors} [Honestidad Académica]{#honesty} [Código de
-Conducta]{#coc} [Política de Privacidad]{#privacy} [Términos de
-Servicio]{#tos} [Política de Derechos de Autor]{#copyright}
-:::
-:::
-:::
-:::
+```bash
+$ git config receive.denyCurrentBranch ignore
+$ ls
+-rw-r--r-- 1 ray ray 20K sep 13 23:36 README.md
+$ git status
+En la rama main
+No hay commits todavía
+Archivos sin seguimiento:
+  (usa "git add <archivo>..." para incluirlo a lo que se será confirmado)
+  <p style="color:red">README.md</p>
+no hay nada agregado al commit pero hay archivos sin seguimiento presentes (usa "git add" para hacerles seguimiento)
+$ git add README.md 
+$ git commit
+[main (commit-raíz) 5996d07] git n github 101 tutorial
+ 1 file changed, 521 insertions(+)
+ create mode 100644 README.md
+$ git branch -M main
+$ git status
+...
+  <p style="color:green">README.md</p>
+...
+$ git remote add origin https://github.com/rsancho64/git.n.github.101.git 
+$ git push origin main
+Username for 'https://github.com': rsancho64
+Password for 'https://rsancho64@github.com': 
+remote: Support for password authentication was removed on August 13, 2021. Please use a personal access token instead.
+remote: Please see https://github.blog/2020-12-15-token-authentication-requirements-for-git-operations/ for more information.
+fatal: Autenticación falló para 'https://github.com/rsancho64/git.n.github.101.git/'
+$  git push https://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@github.com/rsancho64/git.n.github.101.git 
+Enumerando objetos: 3, listo.
+Contando objetos: 100% (3/3), listo.
+Compresión delta usando hasta 4 hilos
+Comprimiendo objetos: 100% (2/2), listo.
+Escribiendo objetos: 100% (3/3), 7.48 KiB | 1.87 MiB/s, listo.
+Total 3 (delta 0), reusado 0 (delta 0), pack-reusado 0
+To https://github.com/rsancho64/git.n.github.101.git
+ * [new branch]      main -> main
+```
