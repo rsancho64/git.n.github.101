@@ -1,91 +1,123 @@
+# Git 101 rsancho Edicion
+
 https://www.freecodecamp.org/espanol/news/10-comandos-de-git-que-todo-desarrollador-deberia-saber/
 
-
-# Git 101
-
 Git es importante si programas a diario (especialmente si trabajas en equipo) y se usa extensamente en la industria de sw.
-Dominar git requiere tiempo. Pero algunos comandos se utilizan más frecuentemente (algunos a diario varias veces). 
-Podemos usar el comando git en la CLI dandole soporte ssh, pero el cliente gh es mas moderno ***para github*** 
 
-> git is used for git in general you can use Bitbucket or GitLab or any provider with it you just add remote and you can push. But Github CLI gh is for Github; you can manage many features of Github from CLI e.g issues.
-I personally prefer git as I am more comfortable and in many offices I don't use Github. https://git-scm.com/docs/git-remote.html#_examples
+Dominar git requiere tiempo. Pero -solo- algunos comandos son los más frecuentes (algunos a diario varias veces). 
+
+Podriamos (***para github***)  usar **`git`** con un cliente mas moderno, como **`gh`** pero vamos a usar el comando git clasico, dandole soporte con ssh: un buen recetario es [**este**](https://git-scm.com/docs/git-remote.html#_examples).
 
 Siguen comandos de Git rutinarios -normales en devel workflow- -más usados- 
 
-## pre0: crear cuenta en github.
+## 0: Conseguir este material (este README.md y (pero dentro de) su todo su repo) 
 
-## pre1: ssh config:
+Se puede hacer de muchos modos, pero vamos a usar este:
+
++ hacemos login en github
++ Hacemos un fork de [este repo] (https://github.com/rsancho64/git.n.github.101) y ya tenemos nuestra copia del repo (Es *otro* repo: homonimo, pero de otro usuario)
+
+### remoto a local
+
++ En local, sin ssh como prerequisito (solo git) ya podemos hacer un acceso al repo. Sea por ejemplo https://github.com/USUARIO/git.n.github.101. Entonces:
+
+```bash
+mkdir folder
+cd folder
+git init 
+git remote add origin https://github.com/USUARIO/git.n.github.101
+git fetch 
+git checkout main
+ls  # README.md en local
+```
+
+### edicion local
+
+Cambiamos la linea 1 de **este fichero** para personalizarla un poco con nuestro nombre
+
+-- # Git 101 rsancho Edicion
+++ # Git 101 USUARIO edicion.
+
+### local a remoto: 
+
+## 1: ssh config:
 
 [video](https://www.youtube.com/watch?v=G69dfwG2DJ4)
 
-Tengo openssh-client (no hace falta -server); tengo comandos:
+En la instalacion de debian 11 ya tengo **`openssh-client`** (no hace falta -server); y tengo comandos:
+
 ```bash
 $ apropos ssh
-rcp (1)              - OpenSSH secure file copy
-rlogin (1)           - OpenSSH remote login client
-rsh (1)              - OpenSSH remote login client
-scp (1)              - OpenSSH secure file copy
-sftp (1)             - OpenSSH secure file transfer
-slogin (1)           - OpenSSH remote login client
-ssh (1)              - OpenSSH remote login client
-ssh-add (1)          - adds private key identities to the OpenSSH authenticat...
-ssh-agent (1)        - OpenSSH authentication agent
-ssh-argv0 (1)        - replaces the old ssh command-name as hostname handling
-ssh-copy-id (1)      - use locally available keys to authorise logins on a re...
-ssh-keygen (1)       - OpenSSH authentication key utility
-ssh-keyscan (1)      - gather SSH public keys from servers
-ssh-keysign (8)      - OpenSSH helper for host-based authentication
+rcp (1)               - OpenSSH secure file copy
+rlogin (1)            - OpenSSH remote login client
+rsh (1)               - OpenSSH remote login client
+scp (1)               - OpenSSH secure file copy
+sftp (1)              - OpenSSH secure file transfer
+slogin (1)            - OpenSSH remote login client
+ssh (1)               - OpenSSH remote login client
+ssh-add (1)           - adds private key identities to the OpenSSH authenticat...
+ssh-agent (1)         - OpenSSH authentication agent
+ssh-argv0 (1)         - replaces the old ssh command-name as hostname handling
+ssh-copy-id (1)       - use locally available keys to authorise logins on a re...
+ssh-keygen (1)        - OpenSSH authentication key utility
+ssh-keyscan (1)       - gather SSH public keys from servers
+ssh-keysign (8)       - OpenSSH helper for host-based authentication
 ssh-pkcs11-helper (8) - OpenSSH helper for PKCS#11 support
-ssh-sk-helper (8)    - OpenSSH helper for FIDO authenticator support
-ssh_config (5)       - OpenSSH client configuration file
-XtIsShell (3)        - obtain and verify a widget's class
+ssh-sk-helper (8)     - OpenSSH helper for FIDO authenticator support
+ssh_config (5)        - OpenSSH client configuration file
+XtIsShell (3)         - obtain and verify a widget's class
 ```
-[connecting-to-github-with-ssh](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/about-ssh)
+receta: [connecting-to-github-with-ssh](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/about-ssh)
 
-[generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent](https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent):
+receta: [generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent](https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent):
 
 ### generating new ssh-k:
-```bash
-    $ ssh-keygen -t ed25519 -C "rsancho@iesrioarba.es"
-    Generating public/private ed25519 key pair.
-    Enter file in which to save the key (/home/ray/.ssh/id_ed25519): 
-    Enter passphrase (empty for no passphrase): *****************
-    Enter same passphrase again: *****************
-    Your identification has been saved in /home/ray/.ssh/id_ed25519
-    Your public key has been saved in /home/ray/.ssh/id_ed25519.pub
-    The key fingerprint is:
-    SHA256:5CPr7vDfdBd+6O1sVWsUFWOjaECPuUQxav2RxGBw9kA rsancho@iesrioarba.es
-    $ ls -l ~/.ssh
-    total 12K
-    -rw------- 1 ray ray 464 sep 13 17:30 id_ed25519
-    -rw-r--r-- 1 ray ray 103 sep 13 17:30 id_ed25519.pub
-    -rw-r--r-- 1 ray ray 884 sep 13 18:38 known_hosts
 
+```bash
+ssh-keygen -t ed25519 -C "rsancho@iesrioarba.es"
+# Generating public/private ed25519 key pair.
+# Enter file in which to save the key (~/.ssh/id_ed25519): 
+# Enter passphrase (empty for no passphrase): *****************
+# Enter same passphrase again: *****************
+# Your identification has been saved in ~/.ssh/id_ed25519
+# Your public key has been saved in ~/.ssh/id_ed25519.pub
+# The key fingerprint is:
+# SHA256:5CPr7vDfdBd+6O1sVWsUFWOjaECPuUQxav2RxGBw9kA rsancho@iesrioarba.es
 ```
+
+```bash
+ls -l ~/.ssh
+# total 12K
+# -rw------- 1 ray ray 464 sep 13 17:30 id_ed25519
+# -rw-r--r-- 1 ray ray 103 sep 13 17:30 id_ed25519.pub
+# -rw-r--r-- 1 ray ray 884 sep 13 18:38 known_hosts
+```
+
 ### adding ssh-k to ssh-agent:
 
 de [aqui](https://kbroman.org/github_tutorial/pages/first_time.html)
 
 ```bash
-    $ eval "$(ssh-agent -s)" # start ssh-agent in background
-    Agent pid 26914
-    $ ssh-add ~/.ssh/id_ed25519
-    Enter passphrase for /home/ray/.ssh/id_ed25519: *****************
-    Identity added: /home/ray/.ssh/id_ed25519 (rsancho@iesrioarba.es)
+eval "$(ssh-agent -s)" # start ssh-agent in background
+# Agent pid 26914
+ssh-add ~/.ssh/id_ed25519
+# Enter passphrase for ~/.ssh/id_ed25519: *****************
+# Identity added: ~/.ssh/id_ed25519 (USUARIO@iesrioarba.es)
 ```
 ### setting id to [local] git cli
 ```bash
-    $ git config --global user.name "name-in-github"   # "rsancho64"
-    $ git config --global user.email "email-in-github" # "rsancho@iesrioarba.es"
-    $ git config --global color.ui true
+git config --global user.name "name-in-github"   # "USUARIO"
+git config --global user.email "email-in-github" # "USUARIO@iesrioarba.es"
+git config --global color.ui true
 ```
 ### give our public key to github
 
 ```bash
-    $ sudo apt install wl-clipboard     # Wayland copypaster @deb11
-    $ wl-copy < ~/.ssh//id_ed25519.pub  # copy to clipboard
+sudo apt install wl-clipboard     # the WayLand copypaster 4 deb11
+wl-copy < ~/.ssh//id_ed25519.pub  # copy to clipboard
 ```
-    now ++ & label ssh public key -onlogin- at account settings https://github.com/settings/keys](https://github.com/settings/keys)
+now ++ & label ssh public key -onlogin- at account settings https://github.com/settings/keys](https://github.com/settings/keys)
+
 ```bash        
     $ ssh -T git@github.com
     Your password: *****************
@@ -434,12 +466,12 @@ ayuda: Names commonly chosen instead of 'master' are 'main', 'trunk' and
 ayuda: 'development'. The just-created branch can be renamed via this command:
 ayuda: 
 ayuda:  git branch -m <name>
-Inicializado repositorio Git vacío en /home/ray/git.n.github.101/.git/
+Inicializado repositorio Git vacío en ~/git.n.github.101/.git/
 
 $ rm -Rf .git # empezamos de nuevo
 $ git config --global init.defaultBranch main
 $ git init
-Inicializado repositorio Git vacío en /home/ray/git.n.github.101/.git/
+Inicializado repositorio Git vacío en ~/git.n.github.101/.git/
 ```
 [nota](https://stackoverflow.com/questions/7152607/git-force-push-current-working-directory)
 
