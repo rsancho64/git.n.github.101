@@ -25,7 +25,7 @@ Se puede hacer de muchos modos, pero vamos a usar este:
 mkdir folder
 cd folder
 git init 
-git remote add origin https://github.com/USUARIO/git.n.github.101
+git remote set-url origin git@github.com:USUARIO/git.n.github.101
 git fetch 
 git checkout main
 ls  # README.md en local
